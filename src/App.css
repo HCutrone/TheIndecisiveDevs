@@ -6,20 +6,23 @@
   background-color: #282c34;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.header-Settings {
-  
+.header-Setting {
+  justify-content: left;
+  max-width: 10%;
+  float: left;
 }
 
 .header-Name {
-
+  justify-content: center;
 }
 
 .header-Profile {
-
+  justify-content: right;
+  max-width: 10%;
+  float: right;
 }

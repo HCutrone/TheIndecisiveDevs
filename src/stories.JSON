@@ -1,0 +1,11 @@
+{
+  "stories":
+    [{
+      "name": "book 1",
+      "author": "me"
+    },
+    {
+      "name": "book 2",
+      "author": "not me"
+    }]
+}
