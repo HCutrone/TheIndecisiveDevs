@@ -2,27 +2,24 @@
   text-align: center;
 }
 
-.homeHeader {
-  background-color: #282c34;
+.container {
+  color: black;
+  border: 5px;
+}
+
+nav {
+  background-color: lightblue;
   display: flex;
-  flex-direction: row;
-  align-items: left;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  overflow: auto;
+  width: 100%;
 }
 
-.header-Setting {
-  justify-content: left;
-  max-width: 10%;
-  float: left;
+nav ul {
+  list-style-type: none;
+  padding-left: 20px;
 }
 
-.header-Name {
-  justify-content: center;
-}
-
-.header-Profile {
-  justify-content: right;
-  max-width: 10%;
-  float: right;
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
 }
