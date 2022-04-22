@@ -1,15 +1,13 @@
 import './App.css';
-import Header from './components/Header.js'
+import { Outlet } from 'react-router-dom'
+import Nav from './components/Nav.js'
 
 function App() {
-  console.log("hello")
   return (
-    <>
-      <div className="App">
-        <Header></Header>
-        
-      </div>
-    </>
+    <div className="container">
+      <Nav />
+      <Outlet />
+    </div>
   );
 }
 
