@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Home from './Home'
-import Library from './Library'
-import Groups from './Groups'
+import Home from './routes/Home'
+import Library from './routes/Library'
+import Groups from './routes/Groups'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 
