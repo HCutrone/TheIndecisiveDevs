@@ -1,9 +1,11 @@
+import './Routes.css'
 import React from 'react'
 
-const Home = () => {
+const Home = ({ user }) => {
   return (
-    <div>
-      <h1>This is the home page</h1>
+    <div className="home-container">
+      <h1>Novellas for the Fellas</h1>
+      <h2>Welcome, {user}</h2>
     </div>
   )
 }
