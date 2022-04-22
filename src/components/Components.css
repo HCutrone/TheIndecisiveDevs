@@ -1,0 +1,16 @@
+nav {
+  background-color: lightblue;
+  display: flex;
+  overflow: auto;
+  width: 100%;
+}
+
+nav ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
