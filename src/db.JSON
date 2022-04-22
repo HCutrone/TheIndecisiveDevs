@@ -1,0 +1,35 @@
+{
+  "users":
+    [{
+      "name": "Harrison",
+      "groups":
+        [{
+          "name": "The Indecisive Devs",
+          "members": 4,
+          "storiesRead": 0,
+          "sessionLength": "1 week"
+        },
+        {
+          "name": "Group Name",
+          "members": 3,
+          "storiesRead": 3,
+          "sessionLength": "2 weeks"
+        }]
+    },
+    {
+      "name": "Zack",
+      "groups":
+        [{
+          "name": "The Indecisive Devs",
+          "members": 4,
+          "storiesRead": 0,
+          "sessionLength": "1 week"
+        },
+        {
+          "name": "Other Group",
+          "members": 5,
+          "storiesRead": 2,
+          "sessionLength": "1 week"
+        }]
+    }]
+}
