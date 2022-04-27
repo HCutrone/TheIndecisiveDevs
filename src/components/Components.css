@@ -1,8 +1,23 @@
-nav {
+.navBar {
   background-color: lightblue;
-  display: flex;
-  overflow: auto;
   width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+}
+
+.navBar :hover {
+  color: purple;
+  text-decoration-color: purple;
+  text-decoration: underline;
+}
+
+.navLeftLinks {
+  padding-left: 20px;
+}
+
+.navRightLinks {
+  padding-right: 20px;
 }
 
 nav ul {
@@ -12,5 +27,12 @@ nav ul {
 
 nav ul li {
   display: inline-block;
-  margin-right: 10px;
+  margin: 10px;
+  font-size: 20px;
+}
+
+nav ul li :hover {
+  color: purple;
+  text-decoration-color: purple;
+  text-decoration: underline;
 }
