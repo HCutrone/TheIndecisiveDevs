@@ -5,14 +5,15 @@ import App from './App';
 import Home from './routes/Home'
 import Library from './routes/Library'
 import Groups from './routes/Groups'
+import Chat from './routes/Chat'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { axios } from 'axios'
 import { ChakraProvider } from '@chakra-ui/react'
 import reportWebVitals from './reportWebVitals';
 
-const currentUser =
-  { 
-    "name": "Harrison",
+const users = [
+  {
+  "name": "Harrison",
     "": "",
     "groups":
       [{
@@ -31,8 +32,8 @@ const currentUser =
         "storiesRead": 3,
         "sessionLength": "2 weeks"
       }]
-  }
-
+  }]
+const currentUser = users[0]
 const userName = currentUser.name
 const userGroups = currentUser.groups
 
@@ -45,6 +46,7 @@ root.render(
           <Route index element={<Home user={userName} groups={userGroups}/>} />
           <Route path="library" element={<Library />} />
           <Route path="groups" element={<Groups />} />
+          <Route path="chat" element={<Chat />} />
         </Route>
       </Routes>
     </BrowserRouter>
