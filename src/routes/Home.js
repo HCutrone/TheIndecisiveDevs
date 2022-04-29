@@ -2,14 +2,14 @@ import './Routes.css'
 import React from 'react'
 import Group from '../components/Group.js'
 import { Link } from 'react-router-dom'
-import { Flex, Center, Container, VStack, Heading, Text } from '@chakra-ui/react'
+import { Container, VStack, Heading } from '@chakra-ui/react'
 
-const Home = ({ user, groups }) => {
+const Home = ({ userName, groups }) => {
   return (
     <Container className="home" maxW="100vw" centerContent>
       <Container className="home-header">
         <Heading as="h1">Novellas for the Fellas</Heading>
-        {user ? <Heading as="h2">Welcome, {user}!</Heading> :
+        {userName ? <Heading as="h2">Welcome, {userName}!</Heading> :
             <Heading as="h2">Welcome, please <Link to="/Library">sign in</Link> or <Link to="/Groups">register</Link> to get started!</Heading>}
       </Container>
 

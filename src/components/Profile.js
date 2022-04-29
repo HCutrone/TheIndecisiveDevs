@@ -1,7 +1,7 @@
 import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 
-const Profile = () => {
+const Profile = ( { user } ) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const profileBtn = React.useRef()
 
