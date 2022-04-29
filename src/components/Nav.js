@@ -8,7 +8,7 @@ import { Center, Flex, Spacer } from '@chakra-ui/react'
 const Nav = ({ user }) => {
   return (
     <Flex className="navBar">
-      <Center className="navLeftLinks"> <Link to="/">Home</Link> </Center>
+      <Center className="navLeftLinks"> <Link to="/Home">Home</Link> </Center>
       <Center className="navLeftLinks"> <Link to="/Library">Library</Link> </Center>
       <Center className="navLeftLinks"> <Link to="/Groups">Your Groups</Link> </Center>
       <Center className="navLeftLinks"> <Link to="/Chat">Chat</Link> </Center>
@@ -17,8 +17,8 @@ const Nav = ({ user }) => {
       
       <Center className="navRightLinks">
         {user
-          ? <Profile />
-          : <LogIn />}
+          ? <Profile user={user}/>
+          : <LogIn btnText="Log-In"/>}
       </Center>
       
     </Flex>

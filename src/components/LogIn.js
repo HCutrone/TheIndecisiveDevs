@@ -1,14 +1,15 @@
-import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, FormLabel, Divider, FormControl } from '@chakra-ui/react'
 import React from 'react'
+import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, FormLabel, Divider, FormControl } from '@chakra-ui/react'
+import api from '../api'
 
-const LogIn = () => {
+const LogIn = ({ btnText }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const loginBtn = React.useRef()
 
   return (
     <>
       <Button ref={loginBtn} onClick={onOpen}>
-        Log In
+        {btnText}
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -23,14 +24,14 @@ const LogIn = () => {
           <Divider />
           <DrawerBody>
             <FormControl>
-              <FormLabel>Sign Up:</FormLabel>
-                <Input placeholder="Enter a user name..." mb="10px"/>
-                <Input placeholder="And a password" mb="10px" />
-                <Input placeholder="Repeat password" mb="10px" />
-                <Divider mt={3} mb={3}/>
               <FormLabel>Log In:</FormLabel>
                 <Input placeholder="User name" mb="10px" />
                 <Input placeholder="Password" mb="10px" />
+                <Divider mt={3} mb={3}/>
+              <FormLabel>Sign Up:</FormLabel>
+                <Input placeholder="Enter a user name" mb="10px"/>
+                <Input placeholder="And a password" mb="10px" />
+                <Input placeholder="Repeat password" mb="10px" />
             </FormControl>
           </DrawerBody>
 
