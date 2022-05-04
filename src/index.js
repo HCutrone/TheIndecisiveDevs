@@ -16,22 +16,87 @@ const users = [
   "name": "Harrison",
     "": "",
     "groups":
-      [{
-        "name": "The Indecisive Devs",
-        "currentStory": "The Tell Tale Heart",
-        "author": "Edgar Allen Poe",
-        "members": 4,
-        "storiesRead": 0,
-        "sessionLength": "1 week"
-      },
-      {
-        "name": "Group Name",
-        "currentStory": "Current Story",
-        "author": "Author",
-        "members": 3,
-        "storiesRead": 3,
-        "sessionLength": "2 weeks"
-      }]
+      [
+          {
+              "name": "The Indecisive Devs",
+              "currentStory": "The Tell Tale Heart",
+              "author": "Edgar Allen Poe",
+              "members": 4,
+              "storiesRead": 0,
+              "sessionLength": "1 week"
+          },
+          {
+              "name": "Group Name",
+              "currentStory": "Current Story",
+              "author": "Author",
+              "members": 3,
+              "storiesRead": 3,
+              "sessionLength": "2 weeks"
+          },
+          {
+              "name": "Reading Readers",
+              "currentStory": "The east of eden",
+              "author": "Jon Steinbeck",
+              "members": 6,
+              "storiesRead": 13,
+              "sessionLength": "51 weeks"
+          },
+          {
+              "name": "Kishan's book club",
+              "currentStory": "Lord of the flies",
+              "author": "J.R.R Tolkien",
+              "members": 53,
+              "storiesRead": 4,
+              "sessionLength": "2 years"
+          },
+          {
+              "name": "Oatmeal",
+              "currentStory": "Brown Sugar",
+              "author": "Quaker",
+              "members": 1,
+              "storiesRead": 1,
+              "sessionLength": "26 weeks"
+          },
+          {
+              "name": "Celtics",
+              "currentStory": "Kyrie Irving",
+              "author": "Danny Ainge",
+              "members": 5,
+              "storiesRead": 1,
+              "sessionLength": "3 years"
+          },
+          {
+              "name": "Cal Poly Book CLub",
+              "currentStory": "Moby Dick",
+              "author": "Herman Melville",
+              "members": 5,
+              "storiesRead": 35,
+              "sessionLength": "7 weeks"
+          },
+          {
+              "name": "Group Name",
+              "currentStory": "Current Story",
+              "author": "Author",
+              "members": 3,
+              "storiesRead": 3,
+              "sessionLength": "2 weeks"
+          },
+          {
+              "name": "Group Name",
+              "currentStory": "Current Story",
+              "author": "Author",
+              "members": 3,
+              "storiesRead": 3,
+              "sessionLength": "2 weeks"
+          },
+          {
+              "name": "Group Name",
+              "currentStory": "Current Story",
+              "author": "Author",
+              "members": 3,
+              "storiesRead": 3,
+              "sessionLength": "2 weeks"
+          }]
   }]
 const currentUser = users[0]
 const userName = currentUser.name

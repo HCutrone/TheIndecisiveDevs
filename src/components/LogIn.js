@@ -1,5 +1,8 @@
 import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, FormLabel, Divider, FormControl } from '@chakra-ui/react'
 import React from 'react'
+import { GoogleLogin } from 'react-google-login';
+
+const clientId = '88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com';
 
 const LogIn = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -22,6 +25,11 @@ const LogIn = () => {
           <DrawerHeader>Log In or Sign Up</DrawerHeader>
           <Divider />
           <DrawerBody>
+            <GoogleLogin
+              clientId={clientId}
+              buttonText={"Login"}
+              isSignedIn={true}
+              />
             <FormControl>
               <FormLabel>Sign Up:</FormLabel>
                 <Input placeholder="Enter a user name..." mb="10px"/>
