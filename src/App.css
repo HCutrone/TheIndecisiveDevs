@@ -1,5 +1,13 @@
-.App {
+.app-container {
   text-align: center;
+}
+
+.app-header h1 {
+  font-size: 50px;
+}
+
+.app-header h2 {
+  font-size: 30px;
 }
 
 body {

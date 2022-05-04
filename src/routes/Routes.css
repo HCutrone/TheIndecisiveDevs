@@ -2,7 +2,24 @@
   background-color: lightcyan;
 }
 
-.home-container {
-  color: black;
+.home-header {
   text-align: center;
+}
+
+.home-header h1 {
+  font-size: 50px;
+}
+
+.home-header h2 {
+  font-size: 30px;
+}
+
+.home-header a {
+  color: purple;
+}
+
+.home-header a :hover {
+  color: red;
+  text-decoration-color: purple;
+  text-decoration: underline;
 }
