@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, FormLabel, Divider, FormControl } from '@chakra-ui/react'
 import api from '../api'
+import { GoogleLogin } from 'react-google-login';
 
 const LogIn = ({ btnText }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -25,6 +26,11 @@ const LogIn = ({ btnText }) => {
           <DrawerBody>
             <FormControl>
               <FormLabel>Log In:</FormLabel>
+                <GoogleLogin clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
+                             buttonText={"Log in with google"}
+                             isSignedIn={true}
+                             cookiePolicy={'single_host_origin'}
+                />
                 <Input placeholder="User name" mb="10px" />
                 <Input placeholder="Password" mb="10px" />
                 <Divider mt={3} mb={3}/>
