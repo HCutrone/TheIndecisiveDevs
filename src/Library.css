@@ -1,0 +1,66 @@
+.libheader {
+    text-align: center;
+    background-color: #343a40;
+    color: white;
+    padding: 1% 0 1% 0;
+    font-size: 48px;
+    float: inline-end;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.libh1{
+    display: inline;
+    display: inline-block;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.libSearchBar{
+    padding-left: 25%;
+    border: #343a40;
+    background-color: beige;
+}
+
+.libbody{
+    background-color: beige;
+}
+
+.booklist {
+    background-color: beige;
+    display: grid;
+    margin: 20px 0 20px 0;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    grid-gap: 1em;
+}
+
+.bookcard {
+    width: 200px;
+    height: 300px;
+    border: 1px solid #343a40;
+    margin: 0 auto;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #343a40;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.desc{
+    align-items: center;
+    height: auto;
+    padding: 10px;
+    color: white;
+}
+.desc h2{
+    font-size: 1em;
+    font-weight: 400;
+}
+
+.desc h3, p{
+    font-weight: 300;
+}
+.coverwrapper {
+    align-self: center;
+    padding-left: 18%;
+    padding-top: 10px;
+}

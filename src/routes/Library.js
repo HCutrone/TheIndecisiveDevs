@@ -1,10 +1,16 @@
 import React from 'react'
+import LibHeader from '../components/LibHeader'
+import Books from '../components/Books'
+import "../Library.css"
 
 const Library = () => {
   return (
-    <div>
-      <h1>This is the Library</h1>
-    </div>
+    <>
+      <div className= "lib-header">
+        <LibHeader></LibHeader>
+      </div>
+      <Books></Books>
+    </>
   )
 }
 
