@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css';
 import { Outlet } from 'react-router-dom'
 import Nav from './components/Nav.js'
@@ -47,12 +47,30 @@ const currentUserGroups = currentUser.groups
 
 function App() {
   const [user, setUser] = useState(currentUser);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+    }
+  }, []);
+
+  const handleLogIn = (user) => {
+    setUser(user);
+    localStorage.setItem("user", user);
+  }
+  
+  const handleLogOut = () => {
+    
+  }
 
   return (
     <Routes>
       <Route path="/" element={
         <body>
-          <Nav user={user} />
+          <Nav user={user} handleLogIn={handleLogIn} />
           <Container className="app-container" maxW="100vw" centerContent>
             {user ? <></> :
               /* if there's no user, load the welcome/sign-in prompt */
