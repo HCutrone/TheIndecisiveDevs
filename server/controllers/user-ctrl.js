@@ -6,7 +6,7 @@ const createUser = (req, res) => {
     if (!body) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a movie',
+            error: 'You must provide a user',
         })
     }
 
@@ -22,13 +22,13 @@ const createUser = (req, res) => {
             return res.status(201).json({
                 success: true,
                 id: user._id,
-                message: 'Movie created!',
+                message: 'User created!',
             })
         })
         .catch(error => {
             return res.status(400).json({
                 error,
-                message: 'Movie not created!',
+                message: 'User not created!',
             })
         })
 }
@@ -52,9 +52,7 @@ const updateUser = async (req, res) => {
         }
         user.name = body.name
         user.groups = body.groups
-        user
-            .save()
-            .then(() => {
+        user.save().then(() => {
                 return res.status(200).json({
                     success: true,
                     id: user._id,
@@ -95,7 +93,7 @@ const getUserById = async (req, res) => {
         if (!user) {
             return res
                 .status(404)
-                .json({ success: false, error: `Movie not found` })
+                .json({ success: false, error: `User not found` })
         }
         return res.status(200).json({ success: true, data: user })
     }).catch(err => console.log(err))
@@ -109,7 +107,7 @@ const getUsers = async (req, res) => {
         if (!users.length) {
             return res
                 .status(404)
-                .json({ success: false, error: `Movie not found` })
+                .json({ success: false, error: `User not found` })
         }
         return res.status(200).json({ success: true, data: users })
     }).catch(err => console.log(err))
