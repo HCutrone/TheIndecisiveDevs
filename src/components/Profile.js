@@ -1,5 +1,6 @@
 import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
+import { GoogleLogout } from 'react-google-login';
 
 const Profile = ( { user } ) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -22,6 +23,9 @@ const Profile = ( { user } ) => {
 
           <DrawerBody>
             <Input placeholder="UserName" />
+              <GoogleLogout clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
+                            buttonText={"Log out"}
+                            ></GoogleLogout>
           </DrawerBody>
           
           <DrawerFooter>
