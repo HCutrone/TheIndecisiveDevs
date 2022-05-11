@@ -44,33 +44,34 @@ const currentUser = users[0]
 const currentUserName = currentUser.name
 const currentUserGroups = currentUser.groups
 
-
 function App() {
-  const [user, setUser] = useState(currentUser);
+  const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
 
-  useEffect(() => {
+  /*useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
     }
-  }, []);
+  }, []);*/
 
   const handleLogIn = (user) => {
     setUser(user);
+    setUsername(user.profileObj.name);
     localStorage.setItem("user", user);
   }
   
   const handleLogOut = () => {
-    
+    setUser(null);
+    setUsername('');
   }
 
   return (
     <Routes>
       <Route path="/" element={
         <body>
-          <Nav user={user} handleLogIn={handleLogIn} />
+          <Nav user={user} handleLogIn={handleLogIn} handleLogOut={handleLogOut} />
           <Container className="app-container" maxW="100vw" centerContent>
             {user ? <></> :
               /* if there's no user, load the welcome/sign-in prompt */

@@ -3,9 +3,14 @@ import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerH
 import api from '../api'
 import { GoogleLogin } from 'react-google-login';
 
-const LogIn = ({ btnText }) => {
+const LogIn = ({ btnText, handleLogIn }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const loginBtn = React.useRef()
+
+  function testLogin(res) {
+    console.log("Username: ", res.profileObj.name);
+    handleLogIn(res);
+  }
 
   return (
     <>
@@ -29,6 +34,7 @@ const LogIn = ({ btnText }) => {
                 <GoogleLogin clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
                              buttonText={"Log in with google"}
                              isSignedIn={true}
+                             onSuccess={handleLogIn}
                              cookiePolicy={'single_host_origin'}
                 />
                 <Input placeholder="User name" mb="10px" />

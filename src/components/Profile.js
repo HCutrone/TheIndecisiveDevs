@@ -2,7 +2,7 @@ import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerH
 import React from 'react'
 import { GoogleLogout } from 'react-google-login';
 
-const Profile = ( { user } ) => {
+const Profile = ( { user, handleLogOut } ) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const profileBtn = React.useRef()
 
@@ -25,6 +25,7 @@ const Profile = ( { user } ) => {
             <Input placeholder="UserName" />
               <GoogleLogout clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
                             buttonText={"Log out"}
+                            onLogoutSuccess={handleLogOut}
                             ></GoogleLogout>
           </DrawerBody>
           
