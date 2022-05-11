@@ -9,6 +9,7 @@ import Chat from './routes/Chat'
 import LogIn from './components/LogIn'
 import { Container, Heading } from '@chakra-ui/react'
 import { Routes, Route } from 'react-router-dom'
+import api from './api'
 
 const users = [
   {
@@ -45,7 +46,7 @@ const currentUserGroups = currentUser.groups
 
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(currentUser);
 
   return (
     <Routes>
@@ -53,10 +54,12 @@ function App() {
         <body>
           <Nav user={user} />
           <Container className="app-container" maxW="100vw" centerContent>
-            <Container className="app-header">
-              <Heading as="h1">Novellas for the Fellas</Heading>
-              <Heading as="h2">Welcome, please <LogIn btnText="Log-In or Sign-Up"/> to get started!</Heading>
-            </Container>
+            {user ? <></> :
+              /* if there's no user, load the welcome/sign-in prompt */
+              <Container className="app-header">
+                <Heading as="h1">Novellas for the Fellas</Heading>
+                <Heading as="h2">Welcome, please <LogIn btnText="Log-In or Sign-Up"/> to get started!</Heading>
+              </Container>}
           </Container>
           <Outlet />
         </body>
