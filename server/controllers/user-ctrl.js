@@ -1,7 +1,7 @@
-const User = require('../models/user-model')
+const User = require('../models/User')
 
-const createUser = (req, res) => {
-    const body = req.body
+const createUser = (payload, res) => {
+    const body = payload.body
 
     if (!body) {
         return res.status(400).json({

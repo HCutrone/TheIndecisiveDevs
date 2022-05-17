@@ -7,9 +7,8 @@ const LogIn = ({ btnText, handleLogIn }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const loginBtn = React.useRef()
 
-  function testLogin(res) {
-    console.log("Username: ", res.profileObj.name);
-    handleLogIn(res);
+  const handleFailure = (result) => {
+    alert(result);
   }
 
   return (
@@ -35,8 +34,10 @@ const LogIn = ({ btnText, handleLogIn }) => {
                              buttonText={"Log in with google"}
                              isSignedIn={true}
                              onSuccess={handleLogIn}
+                             onFailure={handleFailure}
                              cookiePolicy={'single_host_origin'}
                 />
+                <a href="http://localhost:3000/auth/google"> click </a>
                 <Input placeholder="User name" mb="10px" />
                 <Input placeholder="Password" mb="10px" />
                 <Divider mt={3} mb={3}/>

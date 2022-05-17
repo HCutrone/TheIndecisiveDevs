@@ -1,21 +1,26 @@
 import axios from 'axios'
 
-const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+const user = axios.create({
+  baseURL: 'http://localhost:3001/user',
+})
+const auth = axios.create({
+  baseURL: 'http://localhost:3001/user',
 })
 
-export const insertUser = payload => api.post(`/user`, payload)
-export const getAllUsers = () => api.get(`/users`)
-export const updateUserById = (id, payload) => api.put(`/user/${id}`, payload)
-export const deleteUserById = id => api.delete(`/user/${id}`)
-export const getUserById = id => api.get(`/user/${id}`)
+export const insertUser = payload => user.post(`/user`, payload)
+export const getAllUsers = () => user.get(`/users`)
+export const updateUserByID = (id, payload) => user.put(`/user/${id}`, payload)
+export const deleteUserByID = id => user.delete(`/user/${id}`)
+export const getOrCreateUserByID = id => user.get(`/user/${id}`) //maybe make a post????
+export const googleSignIn = token => auth.post(`/google`, token)
 
-const apis = {
+const users = {
     insertUser,
     getAllUsers,
-    updateUserById,
-    deleteUserById,
-    getUserById,
+    updateUserByID,
+    deleteUserByID,
+    getOrCreateUserByID,
+    googleSignIn,
 }
 
-export default apis
+export default users

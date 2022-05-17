@@ -9,8 +9,7 @@ const Home = ({ userName, groups }) => {
     <Container className="home" maxW="100vw" centerContent>
       <Container className="home-header">
         <Heading as="h1">Novellas for the Fellas</Heading>
-        {userName ? <Heading as="h2">Welcome, {userName}!</Heading> :
-            <Heading as="h2">Welcome, please <Link to="/Library">sign in</Link> or <Link to="/Groups">register</Link> to get started!</Heading>}
+        <Heading as="h2">Welcome, {userName}!</Heading>
       </Container>
 
       <VStack className="home-groups" align="stretch" spacing="20px" padding="20px">

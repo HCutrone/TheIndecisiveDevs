@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css';
 import { Outlet } from 'react-router-dom'
 import Nav from './components/Nav.js'
@@ -8,7 +8,7 @@ import Groups from './routes/Groups'
 import Chat from './routes/Chat'
 import LogIn from './components/LogIn'
 import { Container, Heading } from '@chakra-ui/react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
 
 const users = [
@@ -41,30 +41,36 @@ const users = [
       }]
   }]
 const currentUser = users[0]
-const currentUserName = currentUser.name
 const currentUserGroups = currentUser.groups
 
 function App() {
-  const [user, setUser] = useState(null);
+  localStorage.clear();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
+                                                                : null);
   const [username, setUsername] = useState('');
+  const [userID, setUserID] = useState(null);
+  // const [userGroups, setUserGroups] = useState(null);
 
-  /*useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setUser(foundUser);
-    }
-  }, []);*/
+  const handleLogIn = async (googleData) => {
+    setUserID(googleData.getAuthResponse().id_token);
+    setUsername(googleData.profileObj.name);
 
-  const handleLogIn = (user) => {
-    setUser(user);
-    setUsername(user.profileObj.name);
-    localStorage.setItem("user", user);
+    const loggingInUser = await api.googleSignIn(JSON.stringify({ token: userID }));
+    const userData = loggingInUser.json()['user']
+    // const userData = await api.getOrCreateUserByID(JSON.stringify({ id: loggingInUser['sub']}));
+    setUser(userData);
+    localStorage.setItem('user', userData);
+
+    navigate('/home');
   }
   
   const handleLogOut = () => {
-    setUser(null);
     setUsername('');
+    setUserID(null);
+    setUser(null);
+    localStorage.removeItem('user')
+    navigate('/');
   }
 
   return (
@@ -83,7 +89,9 @@ function App() {
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home userName={currentUserName} groups={currentUserGroups}/>} />
+        {/* <Route path="home" element={user ? <Home userName={user['name']} groups={user['groups']}/>
+                                          : <Home />} /> */}
+        <Route path="home" element={<Home userName={"USERNAME"} groups={[]}/>} />
         <Route path="library" element={<Library />} />
         <Route path="groups" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
