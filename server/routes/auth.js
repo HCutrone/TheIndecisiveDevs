@@ -11,25 +11,34 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 router.post('/google', async (req, res) => {
   const { token } = req.body
+
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.GOOGLE_CLIENT_ID,
   })
-  const { id, name, displayName } = ticket.getPayload()
+
+  const { sub, name, given_name, picture } = ticket.getPayload()
   const newUser = {
-    googleID: id,
+    googleID: sub,
     name: name,
-    username: displayName,
+    username: given_name,
     groups: [],
-    image: ticket.getPayload().photos[0].value,
+    image: picture
   }
 
   try {
-    let user = await User.findOne({ googleID: id })
+    console.log("looking for user...")
+    let user = await User.findOne({ googleID: sub })
     let message = "User Found!"
     if (!user) {
+      console.log("user not found, creating user...")
       user = await User.create(newUser)
       message = "User Created!"
+      console.log(message)
+    } else {
+      console.log(message)
+      console.log("here's the user:")
+      console.log(user)
     }
     return res.status(201).json({ success: true, message: message, user: JSON.stringify(user) })
   } catch (error) {

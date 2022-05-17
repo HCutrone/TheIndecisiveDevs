@@ -1,13 +1,12 @@
 import React from "react";
 import { GoogleLogout } from 'react-google-login'
 
-const clientId = '88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com';
-
 function Logout() {
+    const { REACT_APP_GOOGLE_CLIENT_ID } = process.env;
     return (
         <div>
             <GoogleLogout
-                clientId={clientId}
+                clientId={REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText={"Logout"}
                 ></GoogleLogout>
         </div>

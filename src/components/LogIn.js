@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, FormLabel, Divider, FormControl } from '@chakra-ui/react'
-import api from '../api'
 import { GoogleLogin } from 'react-google-login';
 
 const LogIn = ({ btnText, handleLogIn }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { REACT_APP_GOOGLE_CLIENT_ID } = process.env;
   const loginBtn = React.useRef()
 
   const handleFailure = (result) => {
@@ -30,14 +30,13 @@ const LogIn = ({ btnText, handleLogIn }) => {
           <DrawerBody>
             <FormControl>
               <FormLabel>Log In:</FormLabel>
-                <GoogleLogin clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
+                <GoogleLogin clientId={REACT_APP_GOOGLE_CLIENT_ID}
                              buttonText={"Log in with google"}
                              isSignedIn={true}
                              onSuccess={handleLogIn}
                              onFailure={handleFailure}
                              cookiePolicy={'single_host_origin'}
                 />
-                <a href="http://localhost:3000/auth/google"> click </a>
                 <Input placeholder="User name" mb="10px" />
                 <Input placeholder="Password" mb="10px" />
                 <Divider mt={3} mb={3}/>

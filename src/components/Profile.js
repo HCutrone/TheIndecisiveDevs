@@ -5,6 +5,7 @@ import { GoogleLogout } from 'react-google-login';
 const Profile = ( { user, handleLogOut } ) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const profileBtn = React.useRef()
+  const { REACT_APP_GOOGLE_CLIENT_ID } = process.env;
 
   return (
     <>
@@ -23,7 +24,7 @@ const Profile = ( { user, handleLogOut } ) => {
 
           <DrawerBody>
             <Input placeholder="UserName" />
-              <GoogleLogout clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
+              <GoogleLogout clientId={REACT_APP_GOOGLE_CLIENT_ID}
                             buttonText={"Log out"}
                             onLogoutSuccess={handleLogOut}
                             ></GoogleLogout>

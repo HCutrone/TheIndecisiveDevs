@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css';
 import { Outlet } from 'react-router-dom'
 import Nav from './components/Nav.js'
@@ -11,67 +11,42 @@ import { Container, Heading } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
 
-const users = [
-  {
-    "name": "Harrison",
-    "groups":
-      [{
-        "name": "The Indecisive Devs",
-        "currentStory": "The Tell Tale Heart",
-        "author": "Edgar Allen Poe",
-        "members": 4,
-        "storiesRead": 0,
-        "sessionLength": "1 week"
-      },
-      {
-        "name": "Group Name",
-        "currentStory": "Current Story",
-        "author": "Author",
-        "members": 3,
-        "storiesRead": 3,
-        "sessionLength": "2 weeks"
-      },
-      {
-        "name": "New Group",
-        "currentStory": "idk another book",
-        "author": "me :)",
-        "members": -1,
-        "storiesRead": 9999,
-        "sessionLength": 21
-      }]
-  }]
-const currentUser = users[0]
-const currentUserGroups = currentUser.groups
-
 function App() {
-  localStorage.clear();
+  // localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
                                                                 : null);
-  const [username, setUsername] = useState('');
-  const [userID, setUserID] = useState(null);
-  // const [userGroups, setUserGroups] = useState(null);
-
   const handleLogIn = async (googleData) => {
-    setUserID(googleData.getAuthResponse().id_token);
-    setUsername(googleData.profileObj.name);
+    // console.log("Logging in with token")
+    // console.log(googleData.getAuthResponse().id_token)
 
-    const loggingInUser = await api.googleSignIn(JSON.stringify({ token: userID }));
-    const userData = loggingInUser.json()['user']
-    // const userData = await api.getOrCreateUserByID(JSON.stringify({ id: loggingInUser['sub']}));
+    // send the id token to the server for authentication, and return the user
+    const loggingInUser = await api.googleSignIn(googleData.getAuthResponse().id_token);
+
+    // console.log("Got user:")
+    // console.log(JSON.parse(loggingInUser['data']['user']))
+
+    // the googleSignIn returns either a new user or the existing user data from the DB, so lets use it
+    const userData = JSON.parse(loggingInUser['data']['user'])
     setUser(userData);
-    localStorage.setItem('user', userData);
-
+    localStorage.setItem('user', JSON.stringify(userData));
     navigate('/home');
   }
   
   const handleLogOut = () => {
-    setUsername('');
-    setUserID(null);
     setUser(null);
     localStorage.removeItem('user')
     navigate('/');
   }
+
+  // when the user state changes (log in/out), change the page
+  useEffect(() => {
+    if (user) {
+      navigate('/home')
+    } else {
+      navigate('/')
+    }
+  }, [navigate, user])
 
   return (
     <Routes>
@@ -81,6 +56,8 @@ function App() {
           <Container className="app-container" maxW="100vw" centerContent>
             {user ? <></> :
               /* if there's no user, load the welcome/sign-in prompt */
+              /* we need the tertiary because the elements in this body appear on every page */
+              /* thus, when we sign in, we want the welcome text to go away but everything else to stay */
               <Container className="app-header">
                 <Heading as="h1">Novellas for the Fellas</Heading>
                 <Heading as="h2">Welcome, please <LogIn btnText="Log-In or Sign-Up"/> to get started!</Heading>
@@ -89,9 +66,7 @@ function App() {
           <Outlet />
         </body>
       }>
-        {/* <Route path="home" element={user ? <Home userName={user['name']} groups={user['groups']}/>
-                                          : <Home />} /> */}
-        <Route path="home" element={<Home userName={"USERNAME"} groups={[]}/>} />
+        <Route path="home" element={<Home user={user} />} />
         <Route path="library" element={<Library />} />
         <Route path="groups" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
