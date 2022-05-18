@@ -1,13 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const passport = require('passport')
 const { OAuth2Client } = require('google-auth-library');
-// const { default: Profile } = require('../../novellas/src/components/Profile');
 const User = require('../models/User');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
-
-// router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
 router.post('/google', async (req, res) => {
   const { token } = req.body
@@ -46,7 +42,10 @@ router.post('/google', async (req, res) => {
   }
 })
 
-router.get('/google/callback', passport.authenticate('google', { successRedirect: 'http://localhost:3000/home', failureRedirect: '/' }))
-
+router.post('/group', async (req, res) => {
+  console.log("Creating a group!:")
+  const { group } = req.body
+  console.log(group)
+})
 
 module.exports = router

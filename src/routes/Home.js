@@ -1,7 +1,31 @@
 import './Routes.css'
 import React from 'react'
 import Group from '../components/Group.js'
-import { Container, VStack, Heading } from '@chakra-ui/react'
+import CreateGroup from '../components/CreateGroup'
+import JoinGroup from '../components/JoinGroup'
+import { 
+  Container,
+  VStack,
+  Heading,
+  Button,
+  HStack,
+  Spacer,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor, } from '@chakra-ui/react'
+
+const handleCreateGroup = () => {
+  console.log("creating group!")
+}
+const handleJoinGroup = () => {
+  console.log("joining group!")
+}
 
 const Home = ({ user }) => {
   return (
@@ -17,7 +41,30 @@ const Home = ({ user }) => {
               return <Group group={group}></Group>
             })}
           </VStack>
-        : <p>Create or Join a Group!</p>
+        : <Container centerContent>
+            <Popover>
+              <PopoverTrigger>
+                <Button>Create Group</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader>Create a New Group</PopoverHeader>
+                <PopoverBody><CreateGroup /></PopoverBody>
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger>
+                <Button>Join Group</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverHeader>Join a Group</PopoverHeader>
+                <PopoverBody><JoinGroup /></PopoverBody>
+              </PopoverContent>
+            </Popover>
+          </Container>
       }
     </Container>
   )

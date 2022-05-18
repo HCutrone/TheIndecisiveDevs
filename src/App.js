@@ -7,7 +7,7 @@ import Library from './routes/Library'
 import Groups from './routes/Groups'
 import Chat from './routes/Chat'
 import LogIn from './components/LogIn'
-import { Container, Heading } from '@chakra-ui/react'
+import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
 
@@ -16,6 +16,17 @@ function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
                                                                 : null);
+  const toast = useToast()
+  const displayToast = (title, desc) => {
+    toast({
+      title: `${title}`,
+      description: `${desc}`,
+      position: "top",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
+  }
   const handleLogIn = async (googleData) => {
     // console.log("Logging in with token")
     // console.log(googleData.getAuthResponse().id_token)
@@ -28,6 +39,7 @@ function App() {
 
     // the googleSignIn returns either a new user or the existing user data from the DB, so lets use it
     const userData = JSON.parse(loggingInUser['data']['user'])
+    displayToast("We've successfully signed you in!", "Happy Reading :)")
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
     navigate('/home');
@@ -36,6 +48,7 @@ function App() {
   const handleLogOut = () => {
     setUser(null);
     localStorage.removeItem('user')
+    displayToast("You're signed out.", "Have a great day!")
     navigate('/');
   }
 
@@ -46,7 +59,7 @@ function App() {
     } else {
       navigate('/')
     }
-  }, [navigate, user])
+  }, [user])
 
   return (
     <Routes>
