@@ -1,11 +1,17 @@
 const mongoose = require('mongoose')
 
-mongoose
-    .connect('mongodb://127.0.0.1:27017/cinema', { useNewUrlParser: true })
-    .catch(e => {
-        console.error('Connection error', e.message)
-    })
+const connectDB = async () => {
+    try {
+        const connection = await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
 
-const db = mongoose.connection
+        console.log(`MondoDB Connected: ${connection.connection.host}`)
+    } catch (error) {
+        console.log(error)
+        process.exit(1)
+    }
+}
 
-module.exports = db
+module.exports = connectDB

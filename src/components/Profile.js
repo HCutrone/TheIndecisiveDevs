@@ -1,10 +1,11 @@
-import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
+import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react'
 import { GoogleLogout } from 'react-google-login';
 
-const Profile = ( { user } ) => {
+const Profile = ( { user, handleLogOut } ) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const profileBtn = React.useRef()
+  const { REACT_APP_GOOGLE_CLIENT_ID } = process.env;
 
   return (
     <>
@@ -23,8 +24,9 @@ const Profile = ( { user } ) => {
 
           <DrawerBody>
             <Input placeholder="UserName" />
-              <GoogleLogout clientId={"88908660898-d2mtcptaeqck3jh7k0ick3jnf7oruukd.apps.googleusercontent.com"}
+              <GoogleLogout clientId={REACT_APP_GOOGLE_CLIENT_ID}
                             buttonText={"Log out"}
+                            onLogoutSuccess={handleLogOut}
                             ></GoogleLogout>
           </DrawerBody>
           

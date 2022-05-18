@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Divider, Text } from '@chakra-ui/react'
 
 const Group = ({ group }) => {
+  console.log(group)
   return (
     <Container borderWidth="1px" borderRadius="lg" centerContent padding="15px">
       <Text fontSize="3xl">{group.name}</Text>

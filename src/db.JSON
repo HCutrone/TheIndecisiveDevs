@@ -1,23 +1,38 @@
 {
   "users":
     [{
-      "name": "Harrison",
+      "name": "Harrison Cutrone",
+      "username": "Harrison",
       "groups":
         [{
           "name": "The Indecisive Devs",
+          "currentStory": "The Tell Tale Heart",
+          "author": "Edgar Allen Poe",
           "members": 4,
           "storiesRead": 0,
           "sessionLength": "1 week"
         },
         {
           "name": "Group Name",
+          "currentStory": "Current Story",
+          "author": "Author",
           "members": 3,
           "storiesRead": 3,
           "sessionLength": "2 weeks"
-        }]
+        },
+        {
+          "name": "New Group",
+          "currentStory": "idk another book",
+          "author": "me :)",
+          "members": -1,
+          "storiesRead": 9999,
+          "sessionLength": 21
+        }],
+      "image": "link-to-image"
     },
     {
-      "name": "Zack",
+      "name": "Zach",
+      "username": "Zach",
       "groups":
         [{
           "name": "The Indecisive Devs",
@@ -30,6 +45,7 @@
           "members": 5,
           "storiesRead": 2,
           "sessionLength": "1 week"
-        }]
+        }],
+      "image": "link-to-image"
     }]
 }
