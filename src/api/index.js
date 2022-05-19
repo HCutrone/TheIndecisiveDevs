@@ -13,7 +13,7 @@ export const updateUserByID = (id, payload) => user.put(`/user/${id}`, payload)
 export const deleteUserByID = id => user.delete(`/user/${id}`)
 // export const getOrCreateUserByID = id => user.get(`/user/${id}`)
 export const googleSignIn = token => auth.post(`/google`, { token: token })
-export const createGroup = (payload) => auth.post('/group', { group: payload })
+export const createGroup = (userData, groupData) => auth.post('/group', { user: userData, group: groupData })
 
 const users = {
     updateUserByID,
@@ -21,6 +21,7 @@ const users = {
     // getOrCreateUserByID,
     googleSignIn,
     createGroup,
+    // joinGroup,
 }
 
 export default users

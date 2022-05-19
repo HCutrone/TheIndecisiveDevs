@@ -10,6 +10,7 @@ import LogIn from './components/LogIn'
 import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
+import { set } from 'mongoose';
 
 function App() {
   // localStorage.clear();
@@ -52,6 +53,26 @@ function App() {
     navigate('/');
   }
 
+  const handleCreateGroup = async (groupData) => {
+    console.log("Creating group!")
+    let newGroup;
+      console.log("creating group")
+      newGroup = await api.createGroup(user, groupData);
+      console.log("made group")
+    console.log(newGroup)
+    if (newGroup['data']['group']) {
+      // we successfully made the new group
+      console.log(JSON.parse(newGroup['data']['user']))
+      const userData = JSON.parse(newGroup['data']['user'])
+      setUser(userData)
+      localStorage.setItem('user', JSON.stringify(userData))
+      navigate('/home')
+    } else {
+      // we had an error
+      alert(JSON.parse(newGroup['data'['message']]))
+    }
+  }
+
   // when the user state changes (log in/out), change the page
   useEffect(() => {
     if (user) {
@@ -79,7 +100,7 @@ function App() {
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home user={user} />} />
+        <Route path="home" element={<Home user={user} handleCreateGroup={handleCreateGroup} />} />
         <Route path="library" element={<Library />} />
         <Route path="groups" element={<Groups />} />
         <Route path="chat" element={<Chat />} />

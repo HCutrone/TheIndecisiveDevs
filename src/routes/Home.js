@@ -20,14 +20,11 @@ import {
   PopoverCloseButton,
   PopoverAnchor, } from '@chakra-ui/react'
 
-const handleCreateGroup = () => {
-  console.log("creating group!")
-}
 const handleJoinGroup = () => {
   console.log("joining group!")
 }
 
-const Home = ({ user }) => {
+const Home = ({ user, handleCreateGroup }) => {
   return (
     <Container className="home" maxW="100vw" centerContent>
       <Container className="home-header">
@@ -38,7 +35,7 @@ const Home = ({ user }) => {
       {(user['groups'].length > 0)
         ? <VStack className="home-groups" align="stretch" spacing="20px" padding="20px">
             {user['groups'].map(group => {
-              return <Group group={group}></Group>
+              return <Group group={group}></Group> // use the group name to fetch the group data from the db
             })}
           </VStack>
         : <Container centerContent>
@@ -49,8 +46,8 @@ const Home = ({ user }) => {
               <PopoverContent>
                 <PopoverArrow />
                 <PopoverCloseButton />
-                <PopoverHeader>Create a New Group</PopoverHeader>
-                <PopoverBody><CreateGroup /></PopoverBody>
+                <PopoverHeader>Create Your Own Group!</PopoverHeader>
+                <PopoverBody><CreateGroup handleCreateGroup={handleCreateGroup} /></PopoverBody>
               </PopoverContent>
             </Popover>
             <Popover>
@@ -60,7 +57,7 @@ const Home = ({ user }) => {
               <PopoverContent>
                 <PopoverArrow />
                 <PopoverCloseButton />
-                <PopoverHeader>Join a Group</PopoverHeader>
+                <PopoverHeader>Use a Link Code to Join Your Friends!</PopoverHeader>
                 <PopoverBody><JoinGroup /></PopoverBody>
               </PopoverContent>
             </Popover>
