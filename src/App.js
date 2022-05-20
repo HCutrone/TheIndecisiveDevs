@@ -7,15 +7,27 @@ import Library from './routes/Library'
 import Groups from './routes/Groups'
 import Chat from './routes/Chat'
 import LogIn from './components/LogIn'
-import { Container, Heading } from '@chakra-ui/react'
+import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
+import { set } from 'mongoose';
 
 function App() {
   // localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
                                                                 : null);
+  const toast = useToast()
+  const displayToast = (title, desc) => {
+    toast({
+      title: `${title}`,
+      description: `${desc}`,
+      position: "top",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
+  }
   const handleLogIn = async (googleData) => {
     // console.log("Logging in with token")
     // console.log(googleData.getAuthResponse().id_token)
@@ -28,6 +40,7 @@ function App() {
 
     // the googleSignIn returns either a new user or the existing user data from the DB, so lets use it
     const userData = JSON.parse(loggingInUser['data']['user'])
+    displayToast("We've successfully signed you in!", "Happy Reading :)")
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
     navigate('/home');
@@ -36,7 +49,28 @@ function App() {
   const handleLogOut = () => {
     setUser(null);
     localStorage.removeItem('user')
+    displayToast("You're signed out.", "Have a great day!")
     navigate('/');
+  }
+
+  const handleCreateGroup = async (groupData) => {
+    console.log("Creating group!")
+    let newGroup;
+      console.log("creating group")
+      newGroup = await api.createGroup(user, groupData);
+      console.log("made group")
+    console.log(newGroup)
+    if (newGroup['data']['group']) {
+      // we successfully made the new group
+      console.log(JSON.parse(newGroup['data']['user']))
+      const userData = JSON.parse(newGroup['data']['user'])
+      setUser(userData)
+      localStorage.setItem('user', JSON.stringify(userData))
+      navigate('/home')
+    } else {
+      // we had an error
+      alert(JSON.parse(newGroup['data'['message']]))
+    }
   }
 
   // when the user state changes (log in/out), change the page
@@ -46,7 +80,7 @@ function App() {
     } else {
       navigate('/')
     }
-  }, [navigate, user])
+  }, [user])
 
   return (
     <Routes>
@@ -66,7 +100,7 @@ function App() {
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home user={user} />} />
+        <Route path="home" element={<Home user={user} handleCreateGroup={handleCreateGroup} />} />
         <Route path="library" element={<Library />} />
         <Route path="groups" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
