@@ -46,7 +46,8 @@ function App() {
     } else {
       navigate('/')
     }
-  }, [navigate, user])
+    // line 50 was [navigate, user]
+  }, [user])
 
   return (
     <Routes>
