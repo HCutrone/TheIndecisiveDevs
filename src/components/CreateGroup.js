@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Container, FormControl, FormLabel, FormErrorMessage, Input, Button, ButtonGroup, Spacer, Flex, HStack, Radio, RadioGroup } from '@chakra-ui/react'
+import { Container, FormControl, FormLabel, FormErrorMessage, Input, Button, ButtonGroup, Spacer, Flex, HStack, Radio, RadioGroup, Select } from '@chakra-ui/react'
 import { Formik, Field, Form } from 'formik'
 import api from '../api'
 
@@ -23,13 +23,19 @@ const CreateGroup = ({ handleCreateGroup }) => {
     }
   }
 
+  function validateDate(value) {
+    if (!value) {
+      return 'Start date is required'
+    }
+  }
+
   return (
     <Formik
-      initialValues={{ name: '', description: '', sessionLength: ''}}
+      initialValues={{ name: '', description: '', sessionLength: '', startDate: ''}}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          // api.createGroup(values);
+          // alert(JSON.stringify(values), null, 2)
+          console.log("Submitting group:", values)
           handleCreateGroup(values)
           actions.setSubmitting(false)
         }, 1000)
@@ -67,6 +73,23 @@ const CreateGroup = ({ handleCreateGroup }) => {
                     </HStack>
                   </RadioGroup>
                   <FormErrorMessage>{form.errors.sessionLength}</FormErrorMessage>
+                </FormControl>
+              )}
+            </Field>
+            <Field name='startDate' validate={validateDate}>
+              {({ field, form }) => (
+                <FormControl isInvalid={form.errors.startDate && form.touched.startDate} mt={2}>
+                  <FormLabel htmlFor='startDate'>When will your sessions start?</FormLabel>
+                    <Select {...field} placeholder='Choose a day'>
+                      <option value='Monday'>Monday</option>
+                      <option value='Tuesday'>Tuesday</option>
+                      <option value='Wednesday'>Wednesday</option>
+                      <option value='Thursday'>Thursday</option>
+                      <option value='Friday'>Friday</option>
+                      <option value='Saturday'>Saturday</option>
+                      <option value='Sunday'>Sunday</option>
+                    </Select>
+                  <FormErrorMessage>{form.errors.startDate}</FormErrorMessage>
                 </FormControl>
               )}
             </Field>
