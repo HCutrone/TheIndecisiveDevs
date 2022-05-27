@@ -3,7 +3,7 @@ import { Container, FormControl, FormLabel, FormErrorMessage, Input, Button, Spa
 import { Formik, Field, Form } from 'formik'
 import api from '../api'
 
-const JoinGroup = () => {
+const JoinGroup = ({ handleJoinGroup }) => {
   function validateCode(value) {
     if (!value) {
       return 'Code is required'
@@ -15,8 +15,7 @@ const JoinGroup = () => {
       initialValues = {{ name: '' }}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          // api.JoinGroup()
+          handleJoinGroup(values);
           actions.setSubmitting(false)
         }, 1000)
       }}

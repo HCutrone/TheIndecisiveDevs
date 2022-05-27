@@ -3,7 +3,6 @@ const router = express.Router()
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const Group = require('../models/Group');
-const { faExternalLinkSquare } = require('@fortawesome/free-solid-svg-icons');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
@@ -46,7 +45,7 @@ router.post('/google', async (req, res) => {
 })
 
 router.post('/group', async (req, res) => {
-  const { name: groupName, description: groupDescription, sessionLength } = req.body['group']
+  const { name: groupName, description: groupDescription, sessionLength, startDate } = req.body['group']
   const { username, email  } = req.body['user']
 
   let id = 0
@@ -66,6 +65,7 @@ router.post('/group', async (req, res) => {
     storiesRead: 0,
     pastStories: [],
     sessionLength: sessionLength,
+    startDate: startDate,
     groupID: id
   }
   try {
@@ -83,5 +83,30 @@ router.post('/group', async (req, res) => {
     console.error(error)
   }
 })
+
+router.get('/group/:groupName', async (req, res) => {
+  const groupName = req.params['groupName']
+  try {
+    const groupData = await Group.findOne({ name: groupName })
+    return res.status(200).json({ success: true, message: "Group Found!", group: groupData })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+// router.get('/user/:userID/groups', async (req, res) => {
+//   console.log("Getting user groups")
+//   const userID = req.params['userID']
+//   const groupNames = await User.findOne({ googleID: userID })
+
+//   try {
+//     const groupData = await Group.findOne({ name: groupName })
+//     console.log("Found group:")
+//     console.log(groupData)
+//     return res.status(200).json({ success: true, message: "Group Found!", groupData: JSON.stringify(groupData) })
+//   } catch (error) {
+//     console.error(error)
+//   }
+// })
 
 module.exports = router

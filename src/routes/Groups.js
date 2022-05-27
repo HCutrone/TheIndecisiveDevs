@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 let start = new Date();
 const end = new Date(2023,1,1,1,1,0,0);
@@ -41,12 +42,14 @@ function CountDown() {
       </div>
     );
 }
-
+// TODO: use chakra to make look good
+// TODO: only show info like book title when actually there
 const Groups = () => {
-
+  let { group } = useParams();
+  group = JSON.parse(group);
   return (
       <div>
-          <h1>Group Name</h1>
+          <h1>{group['name']}</h1>
           <CountDown></CountDown>
           <h1>Book Title</h1>
           <h2>Book Description</h2>

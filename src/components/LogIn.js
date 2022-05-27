@@ -32,7 +32,7 @@ const LogIn = ({ btnText, handleLogIn }) => {
               <FormLabel>Log In:</FormLabel>
                 <GoogleLogin clientId={REACT_APP_GOOGLE_CLIENT_ID}
                              buttonText={"Log in with google"}
-                             isSignedIn={true}
+                            //  isSignedIn={true}
                              onSuccess={handleLogIn}
                              onFailure={handleFailure}
                              cookiePolicy={'single_host_origin'}

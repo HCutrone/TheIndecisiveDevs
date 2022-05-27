@@ -10,15 +10,17 @@ import LogIn from './components/LogIn'
 import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
-import { set } from 'mongoose';
 
 function App() {
   // localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
                                                                 : null);
+  const [groups, setGroups] = useState(localStorage.getItem('groups') ? JSON.parse(localStorage.getItem('groups'))
+                                                                      : [])
+
   const toast = useToast()
-  const displayToast = (title, desc) => {
+  const displaySuccessToast = (title, desc) => {
     toast({
       title: `${title}`,
       description: `${desc}`,
@@ -28,59 +30,100 @@ function App() {
       isClosable: true,
     })
   }
-  const handleLogIn = async (googleData) => {
-    // console.log("Logging in with token")
-    // console.log(googleData.getAuthResponse().id_token)
 
+  const displayFailureToast = (title, desc) => {
+    toast({
+      title: `${title}`,
+      description: `${desc}`,
+      position: "top",
+      status: 'failure',
+      duration: 9000,
+      isClosable: true,
+    })
+  }
+
+  const getUserGroupData = async (groupNames) => {
+    let userGroupData = [];
+    for (const groupName of groupNames) {
+      try {
+        const getGroupData = await api.getGroupData(groupName);
+        userGroupData.push(getGroupData['data']['group']);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    return Promise.resolve(userGroupData)
+  }
+
+  const getGroupToastDesc = (group) => {
+    let dayText = ""
+    if (group['sessionLength'] === 1) {
+      dayText = ""
+    } else if (group['groupLength'] === 2) {
+      dayText = "other"
+    } else {
+      dayText = "third"
+    }
+    return `${group['name']} will get a new story every ${dayText} ${group['startDate']}`
+  }
+
+  const handleLogIn = async (googleData) => {
     // send the id token to the server for authentication, and return the user
     const loggingInUser = await api.googleSignIn(googleData.getAuthResponse().id_token);
 
-    // console.log("Got user:")
-    // console.log(JSON.parse(loggingInUser['data']['user']))
-
     // the googleSignIn returns either a new user or the existing user data from the DB, so lets use it
     const userData = JSON.parse(loggingInUser['data']['user'])
-    displayToast("We've successfully signed you in!", "Happy Reading :)")
+    displaySuccessToast("We've successfully signed you in!", "Happy Reading :)")
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    setGroups(await getUserGroupData(userData['groups']));
     navigate('/home');
   }
   
   const handleLogOut = () => {
     setUser(null);
+    setGroups([]);
     localStorage.removeItem('user')
-    displayToast("You're signed out.", "Have a great day!")
+    localStorage.removeItem('groups')
+    displaySuccessToast("You're signed out.", "Have a great day!")
     navigate('/');
   }
 
   const handleCreateGroup = async (groupData) => {
-    console.log("Creating group!")
     let newGroup;
-      console.log("creating group")
-      newGroup = await api.createGroup(user, groupData);
-      console.log("made group")
-    console.log(newGroup)
+    newGroup = await api.createGroup(user, groupData);
+    console.log("retrieved from backend:", newGroup)
     if (newGroup['data']['group']) {
+      console.log("in if")
       // we successfully made the new group
-      console.log(JSON.parse(newGroup['data']['user']))
       const userData = JSON.parse(newGroup['data']['user'])
+      console.log("got new user", userData)
       setUser(userData)
-      localStorage.setItem('user', JSON.stringify(userData))
+      setGroups(await getUserGroupData(userData['groups']))
       navigate('/home')
+      const toastDesc = getGroupToastDesc(JSON.parse(newGroup['data']['group']));
+      displaySuccessToast("Group Created!", toastDesc);
     } else {
       // we had an error
-      alert(JSON.parse(newGroup['data'['message']]))
+      alert(JSON.parse(newGroup['data']['message']))
+      displayFailureToast("Error", newGroup['data']['message']);
     }
   }
 
   // when the user state changes (log in/out), change the page
   useEffect(() => {
     if (user) {
+      localStorage.setItem('user', JSON.stringify(user))
       navigate('/home')
     } else {
+      localStorage.removeItem('user')
+      localStorage.removeItem('groups')
       navigate('/')
     }
   }, [user])
+
+  useEffect(() => {
+    localStorage.setItem('groups', JSON.stringify(groups))
+  }, [groups])
 
   return (
     <Routes>
@@ -100,9 +143,9 @@ function App() {
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home user={user} handleCreateGroup={handleCreateGroup} />} />
+        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} />} />
         <Route path="library" element={<Library />} />
-        <Route path="groups" element={<Groups />} />
+        <Route path="group/:group" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
       </Route>
     </Routes>
