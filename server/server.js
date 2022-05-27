@@ -1,16 +1,14 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const connectDB = require('./db')
-const passport = require('passport')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const userRouter = require('./routes/user-router')
+// const userRouter = require('./routes/user-router')
 const authRouter = require('./routes/auth')
 const http = require("http")
 
-dotenv.config({ path: './config/config.env' })
-require('./config/passport')(passport)
+dotenv.config()
 connectDB()
 
 const apiPort = process.env.SERVER_PORT
@@ -39,8 +37,6 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }))
-app.use(passport.initialize())
-app.use(passport.session())
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors({ origin: "http://localhost:3000", methods: "GET,POST,PUT,DELETE", credentials: true}))
@@ -51,7 +47,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.use('/user', userRouter)
+// app.use('/user', userRouter)
 app.use('/auth', authRouter)
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`))

@@ -1,4 +1,6 @@
+import { Container, Text, Heading } from '@chakra-ui/react';
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 let start = new Date();
 const end = new Date(2023,1,1,1,1,0,0);
@@ -41,17 +43,18 @@ function CountDown() {
       </div>
     );
 }
-
+// TODO: use chakra to make look good
+// TODO: only show info like book title when actually there
 const Groups = () => {
-
+  let { group } = useParams();
+  group = JSON.parse(group);
   return (
-      <div>
-          <h1>Group Name</h1>
-          <CountDown></CountDown>
-          <h1>Book Title</h1>
-          <h2>Book Description</h2>
-          <button onClick={buttonTest}>Chat</button>
-      </div>
+      <Container centerContent>
+        <Heading as="h1">{group['name']}</Heading>
+        <Text>{group['currentStory']}</Text>
+        <Text>{group['author']}</Text>
+        <button onClick={buttonTest}>Chat</button>
+      </Container>
   )
 }
 
