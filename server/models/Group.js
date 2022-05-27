@@ -12,6 +12,7 @@ const Group = new Schema(
     storiesRead: { type: Number, required: true },
     pastStories: { type: [], required: true },
     sessionLength: { type: Number, required: true }, //stored as a number of days
+      groupID: { type: Number, required: true}
   },
 )
 

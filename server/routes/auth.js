@@ -48,6 +48,14 @@ router.post('/google', async (req, res) => {
 router.post('/group', async (req, res) => {
   const { name: groupName, description: groupDescription, sessionLength } = req.body['group']
   const { username, email  } = req.body['user']
+
+  let id = 0
+  let test = await Group.findOne({ groupID: id })
+  while(test) {
+    id += 1
+    test = await Group.findOne({ groupID: id })
+  }
+
   const newGroup = {
     name: groupName,
     description: groupDescription,
@@ -57,7 +65,8 @@ router.post('/group', async (req, res) => {
     members: [{ name: username, email: email }],
     storiesRead: 0,
     pastStories: [],
-    sessionLength: sessionLength
+    sessionLength: sessionLength,
+    groupID: id
   }
   try {
     let group = await Group.findOne({ name: groupName })
