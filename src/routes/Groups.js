@@ -1,3 +1,4 @@
+import { Container, Text, Heading } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 
@@ -48,13 +49,12 @@ const Groups = () => {
   let { group } = useParams();
   group = JSON.parse(group);
   return (
-      <div>
-          <h1>{group['name']}</h1>
-          <CountDown></CountDown>
-          <h1>Book Title</h1>
-          <h2>Book Description</h2>
-          <button onClick={buttonTest}>Chat</button>
-      </div>
+      <Container centerContent>
+        <Heading as="h1">{group['name']}</Heading>
+        <Text>{group['currentStory']}</Text>
+        <Text>{group['author']}</Text>
+        <button onClick={buttonTest}>Chat</button>
+      </Container>
   )
 }
 

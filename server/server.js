@@ -6,12 +6,30 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 // const userRouter = require('./routes/user-router')
 const authRouter = require('./routes/auth')
+const http = require("http")
 
 dotenv.config()
 connectDB()
 
 const apiPort = process.env.SERVER_PORT
 const app = express()
+
+// chat server
+const server = http.createServer(app)
+const io = socketio(server)
+
+const PORT = process.env.PORT || 5000
+
+server.listen(PORT, () => console.log(`Server is Quannected to Port ${PORT}`))
+
+io.on("connection", (socket) => {
+    console.log('A Connection has been made')
+    socket.on('disconnect', ()=> {
+        console.log('A disconnection has been made')
+    })
+})
+
+//
 
 // Sessions and Passport
 app.use(session({

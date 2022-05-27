@@ -119,11 +119,16 @@ function App() {
       localStorage.removeItem('groups')
       navigate('/')
     }
+<<<<<<< HEAD
+    // line 50 was [navigate, user]
+  }, [user])
+=======
   }, [user])
 
   useEffect(() => {
     localStorage.setItem('groups', JSON.stringify(groups))
   }, [groups])
+>>>>>>> 9e2a7dbb32192fbe2f3d7bd010f12b48542160aa
 
   return (
     <Routes>
