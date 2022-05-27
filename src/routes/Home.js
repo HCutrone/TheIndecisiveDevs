@@ -12,8 +12,7 @@ import {
   Heading,
   Button,
   HStack,
-  Grid,
-  GridItem,
+  Flex,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -66,12 +65,12 @@ const Home = ({ user, groups, handleCreateGroup }) => {
           //     return <Group group={group}></Group> // use the group name to fetch the group data from the db
           //   })}
           // </VStack>
-          <Grid autoColumns autoRows gap={4} mt={4}>
+          <Flex autoColumns autoRows gap={4} mt={4}>
             {groups.map(group => {
               const url = "/Group/" + JSON.stringify(group);
-              return <Link to={encodeURI(url)} ><GridItem><Group group={group}></Group></GridItem></Link> // use the group name to fetch the group data from the db
+              return <Link to={encodeURI(url)} ><Group group={group}></Group></Link> // use the group name to fetch the group data from the db
             })}
-          </Grid>
+          </Flex>
         : <></>
       }
 

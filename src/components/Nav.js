@@ -13,7 +13,6 @@ const Nav = ({ user, handleLogIn, handleLogOut }) => {
         <>
           <Center className="navLeftLinks"> <Link to="/Home">Home</Link> </Center>
           <Center className="navLeftLinks"> <Link to="/Library">Library</Link> </Center>
-          <Center className="navLeftLinks"> <Link to="/Groups">Your Groups</Link> </Center>
           <Center className="navLeftLinks"> <Link to="/Chat">Chat</Link> </Center>
         </>
         : <></>}
