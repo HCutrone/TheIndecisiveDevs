@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// const Chat = () => {
-//   return (
-//     <div>Chat</div>
-//   )
-// }
-
-// export default Chat
-
 import React, { useEffect, useState } from 'react';
 import { StreamChat } from 'stream-chat';
 import { Chat, enTranslations, Streami18n } from 'stream-chat-react';
