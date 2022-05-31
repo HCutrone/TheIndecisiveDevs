@@ -36,3 +36,7 @@ nav ul li :hover {
   text-decoration-color: purple;
   text-decoration: underline;
 }
+
+.groupBox :hover {
+  border-color: purple;
+}

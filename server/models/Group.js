@@ -7,6 +7,8 @@ const Group = new Schema(
     description: { type: String, required: true },
     currentStory: { type: String, required: false },
     author: { type: String, required: false },
+    image: { type: String, required: false },
+    bookLink: { type: String, required: false },
     size: { type: Number, required: true },
     members: { type: [], required: true},
     storiesRead: { type: Number, required: true },

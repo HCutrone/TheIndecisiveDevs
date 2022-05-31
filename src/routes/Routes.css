@@ -2,24 +2,24 @@
   background-color: lightcyan;
 }
 
-.home-header {
-  text-align: center;
-}
-
-.home-header h1 {
+.home h1 {
   font-size: 50px;
 }
 
-.home-header h2 {
+.groups h1 {
+  font-size: 50px;
+}
+
+.home h2 {
   font-size: 30px;
 }
 
-.home-header a {
-  color: purple;
+.groups h2 {
+  font-size: 30px;
 }
 
-.home-header a :hover {
+/* .home a :hover {
   color: red;
   text-decoration-color: purple;
   text-decoration: underline;
-}
+} */

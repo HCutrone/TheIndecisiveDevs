@@ -1,4 +1,4 @@
-import { Container, Text, Heading } from '@chakra-ui/react';
+import { Container, Text, Heading, Button, Link } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
 
@@ -43,17 +43,29 @@ function CountDown() {
       </div>
     );
 }
+
 // TODO: use chakra to make look good
 // TODO: only show info like book title when actually there
 const Groups = () => {
+  console.log("In groups")
   let { group } = useParams();
   group = JSON.parse(group);
+  console.log("Parsed group", group)
   return (
-      <Container centerContent>
+      <Container className="groups" centerContent>
         <Heading as="h1">{group['name']}</Heading>
-        <Text>{group['currentStory']}</Text>
-        <Text>{group['author']}</Text>
-        <button onClick={buttonTest}>Chat</button>
+        {group['currentStory']
+          ?
+            <>
+              <Text as='h2'>Reading: {group['currentStory']}</Text>
+              <Text>By: {group['author']}</Text>
+            </>
+          :
+            <>
+              <Heading as='h2'>No current reading! Check back on {group['startDate']} to see what your group will be reading</Heading>
+            </>}
+        {/* <Link href={group['bookLink']} isExternal><img alt={group['currentStory']} src={group['image']}></img></Link> */}
+        <Button onClick={buttonTest} mt={2}>See what your group members are saying about your reading!</Button>
       </Container>
   )
 }
