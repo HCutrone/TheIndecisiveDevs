@@ -28,7 +28,7 @@ const handleJoinGroup = () => {
 const Home = ({ user, groups, handleCreateGroup }) => {
   return (
     <Container className="home" maxW="100vw" centerContent>
-      <Container className="home-header">
+      <Container centerContent>
         <Heading as="h1">Novellas for the Fellas</Heading>
         <Heading as="h2">Welcome, {user['username']}!</Heading>
       </Container>
@@ -60,12 +60,7 @@ const Home = ({ user, groups, handleCreateGroup }) => {
 
       {(groups.length > 0)
         ? 
-          // <VStack className="home-groups" align="stretch" spacing="20px" padding="20px">
-          //   {groups.map(group => {
-          //     return <Group group={group}></Group> // use the group name to fetch the group data from the db
-          //   })}
-          // </VStack>
-          <Flex autoColumns autoRows gap={4} mt={4}>
+          <Flex autoColumns autoRows gap={4} mt={4} wrap='wrap' align='center' justify='center'>
             {groups.map(group => {
               const url = "/Group/" + JSON.stringify(group);
               return <Link to={encodeURI(url)} ><Group group={group}></Group></Link> // use the group name to fetch the group data from the db

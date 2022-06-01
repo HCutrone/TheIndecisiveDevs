@@ -60,6 +60,8 @@ router.post('/group', async (req, res) => {
     description: groupDescription,
     currentStory: '',
     author: '',
+    image: '',
+    bookLink: '',
     size: 1,
     members: [{ name: username, email: email }],
     storiesRead: 0,
