@@ -49,10 +49,19 @@ router.post('/group', async (req, res) => {
   const { username, email  } = req.body['user']
 
   let id = 0
+  for(var i = 0; i < groupName.length; i++){
+    let c = groupName.charCodeAt(i)
+    id = ((id<<5)-id) + c
+    id = id & id
+  }
+  if(id < 0) id *= -1;
   let test = await Group.findOne({ groupID: id })
   while(test) {
     id += 1
     test = await Group.findOne({ groupID: id })
+    if (id == MAX_VALUE) {
+      id = 0
+    }
   }
 
   const newGroup = {
