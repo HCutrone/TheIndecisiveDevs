@@ -96,6 +96,38 @@ router.get('/group/:groupName', async (req, res) => {
   }
 })
 
+router.post('/joingroup', async (req, res) => {
+  const { username, email  } = req.body['user']
+  const groupID = req.body['code']
+  console.log(groupID)
+  console.log("reached joingroup router post")
+  try {
+    const groupData = await Group.findOne({ groupID: groupID })
+    const userData = await User.findOne({username: username})
+    console.log("found group data")
+    let userGroups = userData["groups"]
+    if (userGroups.includes(groupData["name"])) {
+      message = "User already in group"
+      return res.status(400).json({ success: false, message: message })
+    }
+    userGroups.push(groupData["name"])
+    //req.body['user']['groups'].push(groupData["name"])
+    console.log("pushed to user")
+    console.log(userGroups)
+    let user = await User.findOneAndUpdate({ googleID: req.body['user']['googleID'] }, { groups: userGroups }, { new: true })
+    console.log("updates user")
+    let groupMembers = groupData["members"]
+    groupMembers.push({ name: username, email: email })
+    console.log("pushed to group")
+    let group = await Group.findOneAndUpdate({groupID: groupID}, {members: groupMembers}, {new: true})
+    console.log("updated group")
+    console.log(userData)
+    return res.status(200).json({ success: true, message: "Group Found!", user: userData })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 // router.get('/user/:userID/groups', async (req, res) => {
 //   console.log("Getting user groups")
 //   const userID = req.params['userID']

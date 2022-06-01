@@ -26,6 +26,7 @@ const Group = ({ group }) => {
           ? <Text>Session Length: {group['sessionLength']} weeks</Text>
           : <Text>Session Length: {group['sessionLength']} week</Text>}
         <Text>New Story Day: {group['startDate']}</Text>
+        <Text>Group ID: {group['groupID']}</Text>
       </Container>
     </Box>
   )

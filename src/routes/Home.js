@@ -21,11 +21,9 @@ import {
   PopoverArrow,
   PopoverCloseButton, } from '@chakra-ui/react'
 
-const handleJoinGroup = () => {
-  console.log("joining group!")
-}
+
 // TODO: make group grid an actual grid
-const Home = ({ user, groups, handleCreateGroup }) => {
+const Home = ({ user, groups, handleCreateGroup, handleJoinGroup }) => {
   return (
     <Container className="home" maxW="100vw" centerContent>
       <Container centerContent>
@@ -53,7 +51,7 @@ const Home = ({ user, groups, handleCreateGroup }) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Use a Link Code to Join Your Friends!</PopoverHeader>
-            <PopoverBody><JoinGroup /></PopoverBody>
+            <PopoverBody><JoinGroup handleJoinGroup={handleJoinGroup} /></PopoverBody>
           </PopoverContent>
         </Popover>
       </HStack>

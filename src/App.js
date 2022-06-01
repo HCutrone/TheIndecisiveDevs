@@ -12,7 +12,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
 
 function App() {
-  // localStorage.clear();
+   localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
                                                                 : null);
@@ -109,6 +109,24 @@ function App() {
     }
   }
 
+  const handleJoinGroup = async (code) => {
+    console.log("handleJoinGroup")
+    console.log(code.name)
+    const data = await api.joinGroup(user, parseInt(code.name))
+    console.log(data)
+    if(data.data.success) {
+      console.log(data)
+      setUser(data.data.user)
+      setGroups(data.data.user.groups)
+    } else {
+      console.log("failure")
+      displayFailureToast("Error", data['data']['message']);
+    }
+
+    //console.log(user)
+    //console.log(user.groups)
+  }
+
   // when the user state changes (log in/out), change the page
   useEffect(() => {
     if (user) {
@@ -143,7 +161,7 @@ function App() {
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} />} />
+        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} handleJoinGroup={handleJoinGroup}/>} />
         <Route path="library" element={<Library />} />
         <Route path="group/:group" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
