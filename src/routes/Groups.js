@@ -62,7 +62,7 @@ const Groups = () => {
             </>
           :
             <>
-              <Heading as='h2'>No current reading! Check back on {group['startDate']} to see what your group will be reading</Heading>
+              <Text as="h2">No current reading! Check back on {group['startDate']} to see what your group will be reading</Text>
             </>}
         {/* <Link href={group['bookLink']} isExternal><img alt={group['currentStory']} src={group['image']}></img></Link> */}
         <Button onClick={buttonTest} mt={2}>See what your group members are saying about your reading!</Button>
