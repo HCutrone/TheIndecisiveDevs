@@ -20,7 +20,7 @@ const Group = ({ group }) => {
               <Text>Check back on {group['startDate']}!</Text>
             </>}
         <Divider />
-        <Text>Members: {group['size']}</Text>
+        <Text>Members: {group['members'].length}</Text>
         <Text>Stories Read: {group['storiesRead']}</Text>
         {group['sessionLength'] != '1'
           ? <Text>Session Length: {group['sessionLength']} weeks</Text>
