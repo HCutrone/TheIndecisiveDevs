@@ -1,8 +1,8 @@
-import { Container, Text, Heading, Button, Link } from '@chakra-ui/react';
+import { Container, Text, Heading, Button, Image } from '@chakra-ui/react';
 import React, { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
 import Comments from "../components/Comments"
-
+import { useParams } from 'react-router-dom';
+import api from '../api'
 
 let start = new Date();
 const end = new Date(2023,1,1,1,1,0,0);
@@ -46,22 +46,31 @@ function CountDown() {
     );
 }
 
+// const getGroupByName = async (name) => {
+//   try {
+//     let groupData = await api.getGroupData(name);
+//     return groupData['data']['group'];
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 // TODO: use chakra to make look good
 // TODO: only show info like book title when actually there
-const Groups = ({ user }) => {
-  console.log("In groups")
-  let { group } = useParams();
-  group = JSON.parse(group);
-  console.log("Parsed group", group)
-  const navigate = useNavigate();
+const Groups = ( user ) => {
+  const { group } = useParams();
+  const groupData = JSON.parse(group)
+  // console.log("fetching data for " + (decodeURI(group)))
+  // const groupData = await handleGetGroup(decodeURI(group))
+  // console.log("final group data: ", groupData)
   return (
-      <Container className="groups" centerContent>
-        <Heading as="h1">{group['name']}</Heading>
-        {group['currentStory']
+      <Container className="groupData" centerContent>
+        <Heading as="h1">{groupData['name']}</Heading>
+        {groupData['currentStory']
           ?
             <>
-              <Text as='h2'>Reading: {group['currentStory']}</Text>
-              <Text>By: {group['author']}</Text>
+              <Text as='h2'>Reading: {groupData['currentStory']}</Text>
+              <Text>By: {groupData['author']}</Text>
+              <Button>Click here to read your story, {groupData['currentStory']}</Button>
             </>
           :
             <>
@@ -81,5 +90,4 @@ const Groups = ({ user }) => {
       </Container>
   )
 }
-
 export default Groups

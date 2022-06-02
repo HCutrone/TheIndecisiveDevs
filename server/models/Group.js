@@ -15,6 +15,7 @@ const Group = new Schema(
     pastStories: { type: [], required: true },
     sessionLength: { type: Number, required: true }, //stored as a number of weeks
     startDate: { type: String, required: true },
+      groupID: { type: Number, required: true}
   },
 )
 

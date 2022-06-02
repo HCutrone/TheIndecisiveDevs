@@ -21,11 +21,9 @@ import {
   PopoverArrow,
   PopoverCloseButton, } from '@chakra-ui/react'
 
-const handleJoinGroup = () => {
-  console.log("joining group!")
-}
+
 // TODO: make group grid an actual grid
-const Home = ({ user, groups, handleCreateGroup }) => {
+const Home = ({ user, groups, handleCreateGroup, handleJoinGroup }) => {
   return (
     <Container className="home" maxW="100vw" centerContent>
       <Container centerContent>
@@ -53,7 +51,7 @@ const Home = ({ user, groups, handleCreateGroup }) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverHeader>Use a Link Code to Join Your Friends!</PopoverHeader>
-            <PopoverBody><JoinGroup /></PopoverBody>
+            <PopoverBody><JoinGroup handleJoinGroup={handleJoinGroup} /></PopoverBody>
           </PopoverContent>
         </Popover>
       </HStack>
@@ -62,9 +60,9 @@ const Home = ({ user, groups, handleCreateGroup }) => {
         ? 
           <Flex autoColumns autoRows gap={4} mt={4} wrap='wrap' align='center' justify='center'>
             {groups.map(group => {
-              const url = "/Group/" + JSON.stringify(group); 
-              return <Link to={encodeURI(url)} ><Group group={group}></Group></Link> // use the group name to fetch the group data from the db
-            })} 
+              const url = "/Group/" + encodeURI(JSON.stringify(group));
+              return <Link to={url} ><Group group={group}></Group></Link> // use the group name to fetch the group data from the db
+            })}
           </Flex>
         : <></>
       }

@@ -1,7 +1,7 @@
 import React from 'react'
 import './Components.css'
 import { Container, Divider, Text, Box } from '@chakra-ui/react'
-// TODO: add 's' to session length if multiple weeks
+
 const Group = ({ group }) => {
   return (
     <Box className="groupBox" borderWidth="1px" borderRadius="lg">
@@ -20,12 +20,13 @@ const Group = ({ group }) => {
               <Text>Check back on {group['startDate']}!</Text>
             </>}
         <Divider />
-        <Text>Members: {group['size']}</Text>
+        <Text>Members: {group['members'].length}</Text>
         <Text>Stories Read: {group['storiesRead']}</Text>
         {group['sessionLength'] != '1'
           ? <Text>Session Length: {group['sessionLength']} weeks</Text>
           : <Text>Session Length: {group['sessionLength']} week</Text>}
         <Text>New Story Day: {group['startDate']}</Text>
+        <Text>Group ID: {group['groupID']}</Text>
       </Container>
     </Box>
   )

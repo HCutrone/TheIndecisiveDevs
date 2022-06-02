@@ -47,6 +47,23 @@ router.post('/google', async (req, res) => {
 router.post('/group', async (req, res) => {
   const { name: groupName, description: groupDescription, sessionLength, startDate } = req.body['group']
   const { username, email  } = req.body['user']
+
+  let id = 0
+  for(var i = 0; i < groupName.length; i++){
+    let c = groupName.charCodeAt(i)
+    id = ((id<<5)-id) + c
+    id = id & id
+  }
+  if(id < 0) id *= -1;
+  let test = await Group.findOne({ groupID: id })
+  while(test) {
+    id += 1
+    test = await Group.findOne({ groupID: id })
+    if (id == MAX_VALUE) {
+      id = 0
+    }
+  }
+
   const newGroup = {
     name: groupName,
     description: groupDescription,
@@ -59,7 +76,8 @@ router.post('/group', async (req, res) => {
     storiesRead: 0,
     pastStories: [],
     sessionLength: sessionLength,
-    startDate: startDate
+    startDate: startDate,
+    groupID: id
   }
   try {
     let group = await Group.findOne({ name: groupName })
@@ -82,6 +100,38 @@ router.get('/group/:groupName', async (req, res) => {
   try {
     const groupData = await Group.findOne({ name: groupName })
     return res.status(200).json({ success: true, message: "Group Found!", group: groupData })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+router.post('/joingroup', async (req, res) => {
+  const { username, email  } = req.body['user']
+  const groupID = req.body['code']
+  console.log(groupID)
+  console.log("reached joingroup router post")
+  try {
+    const groupData = await Group.findOne({ groupID: groupID })
+    const userData = await User.findOne({username: username})
+    console.log("found group data")
+    let userGroups = userData["groups"]
+    if (userGroups.includes(groupData["name"])) {
+      message = "User already in group"
+      return res.status(400).json({ success: false, message: message })
+    }
+    userGroups.push(groupData["name"])
+    //req.body['user']['groups'].push(groupData["name"])
+    console.log("pushed to user")
+    console.log(userGroups)
+    let user = await User.findOneAndUpdate({ googleID: req.body['user']['googleID'] }, { groups: userGroups }, { new: true })
+    console.log("updates user")
+    let groupMembers = groupData["members"]
+    groupMembers.push({ name: username, email: email })
+    console.log("pushed to group")
+    let group = await Group.findOneAndUpdate({groupID: groupID}, {members: groupMembers}, {new: true})
+    console.log("updated group")
+    console.log(userData)
+    return res.status(200).json({ success: true, message: "Group Found!", user: userData })
   } catch (error) {
     console.error(error)
   }

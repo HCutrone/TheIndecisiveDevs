@@ -1,14 +1,19 @@
 import React from 'react'
-import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, FormLabel, Divider, FormControl } from '@chakra-ui/react'
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, Divider, Text, Container } from '@chakra-ui/react'
 import { GoogleLogin } from 'react-google-login';
 
-const LogIn = ({ btnText, handleLogIn }) => {
+const LogIn = ({ btnText, handleLogIn, displayFailureToast }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { REACT_APP_GOOGLE_CLIENT_ID } = process.env;
   const loginBtn = React.useRef()
 
   const handleFailure = (result) => {
-    alert(result);
+    displayFailureToast("Error logging in", result);
+  }
+
+  const extractToken = (googleData) => {
+    const token = googleData.getAuthResponse().id_token
+    handleLogIn(token);
   }
 
   return (
@@ -25,33 +30,27 @@ const LogIn = ({ btnText, handleLogIn }) => {
         <DrawerOverlay />
         <DrawerContent>
 
-          <DrawerHeader>Log In or Sign Up</DrawerHeader>
+          <DrawerHeader>
+            <Text fontSize='xl'>
+              Log In or Sign Up with Google!
+            </Text>
+          </DrawerHeader>
           <Divider />
           <DrawerBody>
-            <FormControl>
-              <FormLabel>Log In:</FormLabel>
-                <GoogleLogin clientId={REACT_APP_GOOGLE_CLIENT_ID}
-                             buttonText={"Log in with google"}
-                            //  isSignedIn={true}
-                             onSuccess={handleLogIn}
-                             onFailure={handleFailure}
-                             cookiePolicy={'single_host_origin'}
-                />
-                <Input placeholder="User name" mb="10px" />
-                <Input placeholder="Password" mb="10px" />
-                <Divider mt={3} mb={3}/>
-              <FormLabel>Sign Up:</FormLabel>
-                <Input placeholder="Enter a user name" mb="10px"/>
-                <Input placeholder="And a password" mb="10px" />
-                <Input placeholder="Repeat password" mb="10px" />
-            </FormControl>
+            <Container ml={6}>
+              <GoogleLogin clientId={REACT_APP_GOOGLE_CLIENT_ID}
+                            buttonText={"Log in with Google"}
+                            // isSignedIn={true}
+                            onSuccess={extractToken}
+                            onFailure={handleFailure}
+                            cookiePolicy={'single_host_origin'}/>
+            </Container>
           </DrawerBody>
 
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button>Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
