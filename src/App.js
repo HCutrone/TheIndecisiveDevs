@@ -5,7 +5,7 @@ import Nav from './components/Nav.js'
 import Home from './routes/Home'
 import Library from './routes/Library'
 import Groups from './routes/Groups'
-import ChatApp from './routes/Chat'
+
 import LogIn from './components/LogIn'
 import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
@@ -174,7 +174,6 @@ function App() {
         <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} handleJoinGroup={handleJoinGroup}/>} />
         <Route path="library" element={<Library />} />
         <Route path="Group/:group" element={<Groups />} />
-        <Route path="chat" element={<Chat />} />
       </Route>
     </Routes>
   );
