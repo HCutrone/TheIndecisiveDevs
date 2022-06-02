@@ -1,4 +1,4 @@
-import { Container, Text, Heading, Button, Image } from '@chakra-ui/react';
+import { Container, Text, Heading, Button, Spacer, Flex } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import Comments from "../components/Comments"
 import { useParams } from 'react-router-dom';
@@ -56,7 +56,7 @@ function CountDown() {
 // }
 // TODO: use chakra to make look good
 // TODO: only show info like book title when actually there
-const Groups = ( user ) => {
+const Groups = ({ user }) => {
   const { group } = useParams();
   const groupData = JSON.parse(group)
   // console.log("fetching data for " + (decodeURI(group)))
@@ -75,10 +75,11 @@ const Groups = ( user ) => {
           :
             <>
               <Text as="h2">No current reading!</Text>
-              <Text>Check back on {group['startDate']} to see what your group will be reading</Text>
+              <Text>Check back on {groupData['startDate']} to see what your group will be reading</Text>
             </>}
         {/* <Link href={group['bookLink']} isExternal><img alt={group['currentStory']} src={group['image']}></img></Link> */}
         <div>
+        <Spacer />
         <Comments
         commentsUrl="http://localhost:3004/comments" 
         currentUserId={String(user['email'])}

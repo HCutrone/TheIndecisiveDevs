@@ -13,7 +13,7 @@ import api from './api'
 import useBackend from './useBackend'
 
 function App() {
-   localStorage.clear();
+  //  localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
   const [groups, setGroups] = useState(localStorage.getItem('groups') ? JSON.parse(localStorage.getItem('groups')) : []);
@@ -173,8 +173,8 @@ function App() {
       }>
         <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} handleJoinGroup={handleJoinGroup}/>} />
         <Route path="library" element={<Library />} />
-        <Route path="Group/:group" element={<Groups />} />
-        <Route path="chat" element={<Chat />} />
+        <Route path="Group/:group" element={<Groups user={user}/>} />
+        <Route path="chat" element={<ChatApp />} />
       </Route>
     </Routes>
   );
