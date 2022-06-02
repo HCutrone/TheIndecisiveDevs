@@ -29,8 +29,6 @@ const app = express()
 //     })
 // })
 
-//
-
 // Sessions and Passport
 app.use(session({
     secret: 'keyboard cat',

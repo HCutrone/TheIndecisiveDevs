@@ -1,7 +1,7 @@
 import React from 'react'
 import './Components.css'
 import { Container, Divider, Text, Box } from '@chakra-ui/react'
-// TODO: add 's' to session length if multiple weeks
+
 const Group = ({ group }) => {
   return (
     <Box className="groupBox" borderWidth="1px" borderRadius="lg">

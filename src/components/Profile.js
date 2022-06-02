@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Input, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure } from '@chakra-ui/react'
+import { Button, Image, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, useDisclosure, Text, Flex, Spacer } from '@chakra-ui/react'
 import { GoogleLogout } from 'react-google-login';
 
 const Profile = ( { user, handleLogOut } ) => {
@@ -20,21 +20,29 @@ const Profile = ( { user, handleLogOut } ) => {
       >
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader>Profile</DrawerHeader>
+          <DrawerHeader>
+            <Flex alignItems='center'>
+              <Image borderRadius='full' boxSize='75px'
+                     src={user['image']}
+                     alt={user['name']}/>
+              <Spacer />
+              <Text fontSize="2xl">{user['name']}</Text>
+            </Flex>
+          </DrawerHeader>
 
           <DrawerBody>
-            <Input placeholder="UserName" />
-              <GoogleLogout clientId={REACT_APP_GOOGLE_CLIENT_ID}
-                            buttonText={"Log out"}
-                            onLogoutSuccess={handleLogOut}
-                            ></GoogleLogout>
+            
+            
           </DrawerBody>
           
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
+            <GoogleLogout clientId={REACT_APP_GOOGLE_CLIENT_ID}
+                            buttonText={"Log out"}
+                            onLogoutSuccess={handleLogOut} />
+            <Spacer />
+            <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button>Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

@@ -10,14 +10,15 @@ import LogIn from './components/LogIn'
 import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
+import useBackend from './useBackend'
 
 function App() {
   // localStorage.clear();
   const navigate = useNavigate();
-  const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
-                                                                : null);
-  const [groups, setGroups] = useState(localStorage.getItem('groups') ? JSON.parse(localStorage.getItem('groups'))
-                                                                      : [])
+  const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
+  const [groups, setGroups] = useState(localStorage.getItem('groups') ? JSON.parse(localStorage.getItem('groups')) : []);
+  // const [googleToken, setGoogleToken] = useState('');
+  // const [groupNameToFetch, fetchGroupByName] = useState('');
 
   const toast = useToast()
   const displaySuccessToast = (title, desc) => {
@@ -26,7 +27,7 @@ function App() {
       description: `${desc}`,
       position: "top",
       status: 'success',
-      duration: 9000,
+      duration: 4500,
       isClosable: true,
     })
   }
@@ -37,20 +38,26 @@ function App() {
       description: `${desc}`,
       position: "top",
       status: 'failure',
-      duration: 9000,
+      duration: 4500,
       isClosable: true,
     })
+  }
+
+  const getGroupDataByName = async (groupName) => {
+    try {
+      let groupData = await api.getGroupData(groupName);
+      return groupData['data']['group'];
+      // fetchGroupByName(groupName)
+      // return fetchedGroupData
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const getUserGroupData = async (groupNames) => {
     let userGroupData = [];
     for (const groupName of groupNames) {
-      try {
-        const getGroupData = await api.getGroupData(groupName);
-        userGroupData.push(getGroupData['data']['group']);
-      } catch (error) {
-        console.error(error);
-      }
+      userGroupData.push(await getGroupDataByName(groupName))
     }
     return Promise.resolve(userGroupData)
   }
@@ -67,44 +74,46 @@ function App() {
     return `${group['name']} will get a new story every ${dayText} ${group['startDate']}`
   }
 
-  const handleLogIn = async (googleData) => {
+  const handleLogIn = async (logInToken) => {
     // send the id token to the server for authentication, and return the user
-    const loggingInUser = await api.googleSignIn(googleData.getAuthResponse().id_token);
-
+    const loggingInUser = await api.googleSignIn(logInToken);
     // the googleSignIn returns either a new user or the existing user data from the DB, so lets use it
     const userData = JSON.parse(loggingInUser['data']['user'])
     displaySuccessToast("We've successfully signed you in!", "Happy Reading :)")
     setUser(userData);
     setGroups(await getUserGroupData(userData['groups']));
-    navigate('/home');
+  //   // const logInToken = googleData.getAuthResponse().id_token
+  //   console.log("setting google token to:", logInToken);
+  //   console.log("token before setting:", googleToken)
+  //   setGoogleToken(logInToken);
+  //   console.log("token after setting:", googleToken)
+  //   console.log(user)
   }
   
+  // const { fetchedGroupData, setFetchedGroupData } = useBackend(googleToken, groupNameToFetch)
+  
   const handleLogOut = () => {
+    console.log("logging out")
     setUser(null);
     setGroups([]);
-    localStorage.removeItem('user')
-    localStorage.removeItem('groups')
     displaySuccessToast("You're signed out.", "Have a great day!")
-    navigate('/');
+    navigate('/')
   }
 
   const handleCreateGroup = async (groupData) => {
     let newGroup;
     newGroup = await api.createGroup(user, groupData);
-    console.log("retrieved from backend:", newGroup)
     if (newGroup['data']['group']) {
-      console.log("in if")
       // we successfully made the new group
       const userData = JSON.parse(newGroup['data']['user'])
-      console.log("got new user", userData)
       setUser(userData)
       setGroups(await getUserGroupData(userData['groups']))
-      navigate('/home')
+      // navigate('/home')
       const toastDesc = getGroupToastDesc(JSON.parse(newGroup['data']['group']));
       displaySuccessToast("Group Created!", toastDesc);
     } else {
       // we had an error
-      alert(JSON.parse(newGroup['data']['message']))
+      // alert(JSON.parse(newGroup['data']['message']))
       displayFailureToast("Error", newGroup['data']['message']);
     }
   }
@@ -115,6 +124,7 @@ function App() {
       localStorage.setItem('user', JSON.stringify(user))
       navigate('/home')
     } else {
+      setGroups([])
       localStorage.removeItem('user')
       localStorage.removeItem('groups')
       navigate('/')
@@ -129,7 +139,7 @@ function App() {
     <Routes>
       <Route path="/" element={
         <body>
-          <Nav user={user} handleLogIn={handleLogIn} handleLogOut={handleLogOut} />
+          <Nav user={user} handleLogIn={handleLogIn} handleLogOut={handleLogOut} displayFailureToast={displayFailureToast} />
           <Container className="app-container" maxW="100vw" centerContent>
             {user ? <></> :
               /* if there's no user, load the welcome/sign-in prompt */
@@ -137,15 +147,15 @@ function App() {
               /* thus, when we sign in, we want the welcome text to go away but everything else to stay */
               <Container className="app-header">
                 <Heading as="h1">Novellas for the Fellas</Heading>
-                <Heading as="h2">Welcome, please <LogIn btnText="Log-In or Sign-Up"/> to get started!</Heading>
+                <Heading as="h2">Welcome, please <LogIn btnText="Log-In or Sign-Up" handleLogIn={handleLogIn} displayFailureToast={displayFailureToast}/> to get started!</Heading>
               </Container>}
           </Container>
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} />} />
+        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup}/>} />
         <Route path="library" element={<Library />} />
-        <Route path="group/:group" element={<Groups />} />
+        <Route path="Group/:group" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
       </Route>
     </Routes>

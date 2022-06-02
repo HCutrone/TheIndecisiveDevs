@@ -1,6 +1,7 @@
-import { Container, Text, Heading, Button, Link } from '@chakra-ui/react';
+import { Container, Text, Heading, Button, Image } from '@chakra-ui/react';
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom';
+import api from '../api'
 
 let start = new Date();
 const end = new Date(2023,1,1,1,1,0,0);
@@ -44,30 +45,39 @@ function CountDown() {
     );
 }
 
+// const getGroupByName = async (name) => {
+//   try {
+//     let groupData = await api.getGroupData(name);
+//     return groupData['data']['group'];
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 // TODO: use chakra to make look good
 // TODO: only show info like book title when actually there
 const Groups = () => {
-  console.log("In groups")
-  let { group } = useParams();
-  group = JSON.parse(group);
-  console.log("Parsed group", group)
+  const { group } = useParams();
+  const groupData = JSON.parse(group)
+  // console.log("fetching data for " + (decodeURI(group)))
+  // const groupData = await handleGetGroup(decodeURI(group))
+  // console.log("final group data: ", groupData)
   return (
-      <Container className="groups" centerContent>
-        <Heading as="h1">{group['name']}</Heading>
-        {group['currentStory']
+      <Container className="groupData" centerContent>
+        <Heading as="h1">{groupData['name']}</Heading>
+        {groupData['currentStory']
           ?
             <>
-              <Text as='h2'>Reading: {group['currentStory']}</Text>
-              <Text>By: {group['author']}</Text>
+              <Text as='h2'>Reading: {groupData['currentStory']}</Text>
+              <Text>By: {groupData['author']}</Text>
+              <Button>Click here to read your story, {groupData['currentStory']}</Button>
             </>
           :
             <>
-              <Text as="h2">No current reading! Check back on {group['startDate']} to see what your group will be reading</Text>
+              <Text as="h2">No current reading! Check back on {groupData['startDate']} to see what your group will be reading</Text>
             </>}
-        {/* <Link href={group['bookLink']} isExternal><img alt={group['currentStory']} src={group['image']}></img></Link> */}
+        {/* <Link href={groupData['bookLink']} isExternal><img alt={groupData['currentStory']} src="../images/ifIhadone.jpg"></img></Link> */}
         <Button onClick={buttonTest} mt={2}>See what your group members are saying about your reading!</Button>
       </Container>
   )
 }
-
 export default Groups

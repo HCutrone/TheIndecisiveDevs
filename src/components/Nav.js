@@ -5,7 +5,7 @@ import LogIn from './LogIn.js'
 import { Link } from 'react-router-dom'
 import { Center, Flex, Spacer } from '@chakra-ui/react'
 
-const Nav = ({ user, handleLogIn, handleLogOut }) => {
+const Nav = ({ user, handleLogIn, handleLogOut, displayFailureToast }) => {
   return (
     <Flex className="navBar">
       {user 
@@ -20,8 +20,8 @@ const Nav = ({ user, handleLogIn, handleLogOut }) => {
       
       <Center className="navRightLinks">
         {user
-          ? <Profile user={user} handleLogOut={handleLogOut}/>
-          : <LogIn btnText="Log-In" handleLogIn={handleLogIn}/>}
+          ? <Profile user={user} handleLogOut={handleLogOut} />
+          : <LogIn btnText="Log-In" handleLogIn={handleLogIn} displayFailureToast={displayFailureToast}/>}
       </Center>
       
     </Flex>
