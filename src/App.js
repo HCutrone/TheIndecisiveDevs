@@ -5,14 +5,14 @@ import Nav from './components/Nav.js'
 import Home from './routes/Home'
 import Library from './routes/Library'
 import Groups from './routes/Groups'
-import Chat from './routes/Chat'
+import ChatApp from './routes/Chat'
 import LogIn from './components/LogIn'
 import { Container, Heading, useToast } from '@chakra-ui/react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import api from './api'
 
 function App() {
-  // localStorage.clear();
+  localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user'))
                                                                 : null);
@@ -145,8 +145,8 @@ function App() {
       }>
         <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} />} />
         <Route path="library" element={<Library />} />
-        <Route path="group/:group" element={<Groups />} />
-        <Route path="chat" element={<Chat />} />
+        <Route path="group/:group" element={<Groups user={user} />} />
+        <Route path="chat" element={<ChatApp />} />
       </Route>
     </Routes>
   );

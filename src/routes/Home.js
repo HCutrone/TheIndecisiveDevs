@@ -62,9 +62,9 @@ const Home = ({ user, groups, handleCreateGroup }) => {
         ? 
           <Flex autoColumns autoRows gap={4} mt={4} wrap='wrap' align='center' justify='center'>
             {groups.map(group => {
-              const url = "/Group/" + JSON.stringify(group);
+              const url = "/Group/" + JSON.stringify(group); 
               return <Link to={encodeURI(url)} ><Group group={group}></Group></Link> // use the group name to fetch the group data from the db
-            })}
+            })} 
           </Flex>
         : <></>
       }
