@@ -13,7 +13,7 @@ import api from './api'
 import useBackend from './useBackend'
 
 function App() {
-  // localStorage.clear();
+   localStorage.clear();
   const navigate = useNavigate();
   const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
   const [groups, setGroups] = useState(localStorage.getItem('groups') ? JSON.parse(localStorage.getItem('groups')) : []);
@@ -118,6 +118,24 @@ function App() {
     }
   }
 
+  const handleJoinGroup = async (code) => {
+    console.log("handleJoinGroup")
+    console.log(code.name)
+    const data = await api.joinGroup(user, parseInt(code.name))
+    console.log(data)
+    if(data.data.success) {
+      console.log(data)
+      setUser(data.data.user)
+      setGroups(data.data.user.groups)
+    } else {
+      console.log("failure")
+      displayFailureToast("Error", data['data']['message']);
+    }
+
+    //console.log(user)
+    //console.log(user.groups)
+  }
+
   // when the user state changes (log in/out), change the page
   useEffect(() => {
     if (user) {
@@ -153,7 +171,7 @@ function App() {
           <Outlet />
         </body>
       }>
-        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup}/>} />
+        <Route path="home" element={<Home user={user} groups={groups} handleCreateGroup={handleCreateGroup} handleJoinGroup={handleJoinGroup}/>} />
         <Route path="library" element={<Library />} />
         <Route path="Group/:group" element={<Groups />} />
         <Route path="chat" element={<Chat />} />
